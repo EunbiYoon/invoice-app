@@ -3,12 +3,19 @@
     import { onMounted, ref } from "vue"
     
     let invoices=ref([])
+    let searchInvoice=ref([])
+
     onMounted(async()=>{
         getInvoices()
     })
     const getInvoices=async()=>{
         let response=await axios.get("/api/get_all_invoice")
-        // console.log('response',response)
+        console.log('response',response)
+        invoices.value=response.data.invoices
+    }
+    const search = async () => {
+        let response = await axios.get('/api/search_invoice?s='+searchInvoice.value)
+        console.log('response', response.data.invoices)
         invoices.value=response.data.invoices
     }
 </script>
@@ -56,7 +63,7 @@
                     </div>
                     <div class="relative">
                         <i class="table--search--input--icon fas fa-search "></i>
-                        <input class="table--search--input" type="text" placeholder="Search invoice">
+                        <input class="table--search--input" type="text" placeholder="Search invoice" v-model="searchInvoice" @keyup="search()">
                     </div>
                 </div>
 
@@ -74,7 +81,10 @@
                     <a href="#" class="table--items--transactionId">#{{item.id}}</a>
                     <p>{{item.date}}</p>
                     <p>#{{item.number}}</p>
-                    <p>{{item.customer_id}}</p>
+                    <p v-if="item.customer">
+                        {{item.customer.firstname}}
+                    </p>
+                    <p v-else></p>
                     <p>{{item.due_date}}</p>
                     <p> $ {{item.total}}</p>
                 </div>
