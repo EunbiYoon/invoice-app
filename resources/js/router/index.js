@@ -15,13 +15,13 @@ const routes=[
         component: invoiceNew
     },
     {
-        path: '/:pathMatch(.*)*',
-        component: notFound
-    },
-    {
         path: '/invoice/show/:id',
         component: invoiceShow,
         props:true
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: notFound
     }
 ]
 const router=createRouter({

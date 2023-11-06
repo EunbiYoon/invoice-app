@@ -1,4 +1,5 @@
 <script setup>
+    import axios from "axios";
     import { onMounted, ref } from "vue"
 
     let form=ref({id:''})
@@ -14,8 +15,8 @@
     })
     const getInvoice=async()=>{
         let response=await axios.get(`/api/show_invoice/${props.id}`)
-        // console.log('form', response.data.invoice)
-        form.value=response.data.invoice;
+        console.log('form', response.data.invoice)
+        form.value=response.data.invoice
     }
 </script>
 <template>
